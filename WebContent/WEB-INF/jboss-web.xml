@@ -1,0 +1,3 @@
+<jboss-web>
+    <context-root>agent</context-root>
+</jboss-web>
