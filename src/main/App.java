@@ -19,7 +19,7 @@ public class App extends Application {
 		AgentMapReduceMaster MRMaster = new AgentMapReduceMaster();
 		
 		// Ovo dodje sa front-enda
-		String dir = "C:\\TEST";
+		String dir = "C:\\!AGENTSKE_TEST";
 		MRMaster.doShit(dir);
 	}
 }
