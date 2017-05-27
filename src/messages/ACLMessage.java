@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import agents.AID;
 
-public class ACL {
+public class ACLMessage {
 	private Performative performative;
 	private AID sender ;
 	private ArrayList<AID> receivers;

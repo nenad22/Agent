@@ -1,6 +1,10 @@
 package agents;
 
-public abstract class Agent {
+import java.io.Serializable;
+
+import javax.ejb.Stateful;
+
+public abstract class Agent implements Serializable {
 	private AID id;
 
 	public abstract void onMessage();
