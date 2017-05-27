@@ -20,6 +20,6 @@ public class App extends Application {
 		
 		// Ovo dodje sa front-enda
 		String dir = "C:\\!AGENTSKE_TEST";
-		MRMaster.doShit(dir);
+		MRMaster.doWork(dir);
 	}
 }
