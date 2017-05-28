@@ -23,9 +23,9 @@ public class App extends Application {
 		
 		// Ovo treba da dodje sa front-enda:
 		
-		String MPdir = null;
+		String MRdir = null;
 		try {
-			MPdir = PropertiesUtil.instance().readProperty("MPDir");
+			MRdir = PropertiesUtil.instance().readProperty("MRDir");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -34,6 +34,6 @@ public class App extends Application {
 			e.printStackTrace();
 		}
 		
-		MRMaster.doWork(MPdir);
+		MRMaster.doWork(MRdir);
 	}
 }
