@@ -1,5 +1,8 @@
 package main;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ws.rs.ApplicationPath;
@@ -18,8 +21,19 @@ public class App extends Application {
 		System.out.println(">>> Startujem AgentMapReduceMaster");
 		AgentMapReduceMaster MRMaster = new AgentMapReduceMaster();
 		
-		// Ovo dodje sa front-enda
-		String dir = "C:\\!AGENTSKE_TEST";
-		MRMaster.doWork(dir);
+		// Ovo treba da dodje sa front-enda:
+		
+		String MPdir = null;
+		try {
+			MPdir = PropertiesUtil.instance().readProperty("MPDir");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		MRMaster.doWork(MPdir);
 	}
 }

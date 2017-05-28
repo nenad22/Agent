@@ -2,8 +2,7 @@ package agents;
 
 import java.io.Serializable;
 
-import javax.ejb.Stateful;
-
+@SuppressWarnings("serial")
 public abstract class Agent implements Serializable {
 	private AID id;
 

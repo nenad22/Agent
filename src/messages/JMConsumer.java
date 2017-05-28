@@ -6,13 +6,13 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
-import javax.jms.TextMessage;
 //TODO change queue make a new one
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
 		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/FromUserToChat") })
 public class JMConsumer implements MessageListener {
 
+	@SuppressWarnings("unused")
 	@Override
 	public void onMessage(Message message) {
 		//TODO establish protocol
