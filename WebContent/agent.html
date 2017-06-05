@@ -1,126 +1,169 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
 
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
 
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
 
-		<link rel="stylesheet" type="text/css" href="CSS/desha.css">
+<link rel="stylesheet" type="text/css" href="CSS/desha.css">
 
-		<title>Agent Center</title>
-	</head>
-	<body>	
-	
-		<!--SVE -->
-		<div class="container main" style="height: 100vh;">
-			<div class="row text-center">
-				<h1>Agent Center</h1>
+<title>Agent Center</title>
+</head>
+<body>
+
+	<!--SVE -->
+	<div class="container main" style="height: 100vh;">
+		<div class="row text-center">
+			<h1>Agent Center</h1>
+		</div>
+
+		<!-- Gornji row -->
+		<div class="row text-center" style="padding: 5%;">
+
+			<!-- Kolona Available Agents -->
+			<div class="col-md-3 container"
+				style="margin-left: 4%; margin-right: 1%;">
+
+				<!-- Naslov Available Agents -->
+				<div style="text-align: center;">
+					<h2>Available Agents</h2>
+				</div>
+
+				<!-- Spisak Available Agents -->
+				<div class="col-md-3 scrollable-menu"
+					style="overflow-y: scroll; min-width: 100%; margin-bottom: 2%; max-height: 30vh;">
+					<ul class="list-group" id="online">
+						<li class="list-group-item" style="margin: 0%"
+							ng-repeat="agent in agentClasses" value="{{agent}}">{{agent}}</li>
+
+					</ul>
+				</div>
+
 			</div>
 
-			<!-- Gornji row -->
-			<div class="row text-center" style="padding: 5%;">
+			<!-- Kolona Agent Creation -->
+			<div class="col-md-4 container" style="margin-right: 1%;">
 
-				<!-- Kolona Available Agents -->
-				<div class="col-md-3 container" style="margin-left: 4%; margin-right: 1%;">
-					
-					<!-- Naslov Available Agents -->
-					<div style="text-align: center;">
-						<h2>Available Agents</h2>
-					</div>
+				<!-- Naslov Agent Creation -->
+				<div style="text-align: center;">
+					<h2>Agent Creation</h2>
+				</div>
+				<select class="form-control input-sm" rows="2" 
+					style="padding: 0%" ng-model="selectedAgent">
+					<option ng-repeat="agent in agentClasses">{{agent}}</option>
+				</select> <label for="agentName">Name: </label> <input name="agentName"
+					type="text" ng-model="newAgentName"></input> <input type="submit" value="Send"
+					class="btn btn-success input-sm" style="margin: 0%; float: right"
+					ng-click="createAgent()" />
+			</div>
 
-					<!-- Spisak Available Agents -->
-					<div class="col-md-3 scrollable-menu"
-						style="overflow-y: scroll; min-width: 100%; margin-bottom: 2%; max-height: 30vh;">
-						<ul class="list-group" id="online">
-							<li class="list-group-item" style="margin: 0%">MapReduce</li>
-							<li class="list-group-item" style="margin: 0%">PingPong</li>
-							<li class="list-group-item" style="margin: 0%">...</li>
-						</ul>
-					</div>
 
+			<!-- Kolona Agent Messaging -->
+			<div class="col-md-4 container" style="margin-right: 1%;">
+
+				<!-- Naslov Agent Messaging -->
+				<div style="text-align: center;">
+					<h2>Agent Messaging</h2>
 				</div>
 
-				<!-- Kolona Agent Creation -->
-				<div class="col-md-4 container" style="margin-right: 1%;">
+				<label >Performative: </label> 
+				<select	class="form-control input-sm" rows="2" style="padding: 0%"
+					ng-model="performative">
+					<option ng-repeat="performative in performatives">{{performative}}</option>
+				</select> 
+				<label >Sender: </label>
+				<select	class="form-control input-sm" rows="2" 
+					style="padding: 0%" ng-model="sender">
+					<option	ng-repeat="agent in runningAgents" value="{{agent.id}}">{{agent.id.type.name+' '+agent.id.name}}</option>
 					
-					<!-- Naslov Agent Creation -->
-					<div style="text-align: center;">
-						<h2>Agent Creation</h2>
-					</div>
-
-					<!-- TO-DO polja za kreaciju agenata -->
-
-				</div>
-
-
-				<!-- Kolona Agent Messaging -->
-				<div class="col-md-4 container" style="margin-right: 1%;">
-					
-					<!-- Naslov Agent Messaging -->
-					<div style="text-align: center;">
-						<h2>Agent Messaging</h2>
-					</div>
-
-					<!-- TO-DO polja za messaging agenata -->
-
-				</div>
+				</select> 
+				
+				<label >Reciver: </label>
+				 <select class="form-control input-sm" rows="2"
+					style="padding: 0%" ng-model="reciver">
+					<option ng-repeat="agent in runningAgents" value="{{agent.id}}">{{agent.id.type.name+' '+agent.id.name}}</option>
+				</select>
+				
+				<label >Reply to: </label> 
+				<select	class="form-control input-sm" rows="2" 
+					style="padding: 0%" ng-model="replyTo">
+					<option ng-repeat="agent in runningAgents" value="{{agent.id}}">{{agent.id.type.name+' '+agent.id.name}}</option>
+				</select> 
+				
+				<label >Content: </label> 
+				<input type="text"
+					class="form-control input-sm" rows="2" 
+					ng-model="content"></input>
+				<input type="submit"
+					value="Send" class="btn btn-success input-sm"
+					style="margin: 0%; float: right" ng-click="sendMessage()" />
+			</div>
 
 			<!-- End: Gornji row -->
+		</div>
+
+		<!-- Donji row -->
+		<div class="row justify-content-md-center" style="padding: 5%;">
+
+			<!-- Kolona Running Agents -->
+			<div class="col-md-4 container-fluid"
+				style="margin-left: 4%; margin-right: 1%;">
+
+				<!-- Naslov Running Agents -->
+				<div style="text-align: center;">
+					<h2>Running Agents</h2>
+				</div>
+
+				<!-- Spisak Running Agents -->
+				<div class="col-md-3 scrollable-menu"
+					style="overflow-y: scroll; min-width: 100%; margin-bottom: 2%; max-height: 30vh;">
+					<ul class="list-group" id="online">
+						<li class="list-group-item" style="margin: 0%"
+							ng-repeat="agent in runningAgents">{{agent.id.type.name+' '+agent.id.name}}</li>
+					</ul>
+				</div>
+
 			</div>
 
-			<!-- Donji row -->
-			<div class="row justify-content-md-center" style="padding: 5%;">
+			<!-- Kolona Console -->
+			<div class="col-md-7 container-fluid">
 
-				<!-- Kolona Running Agents -->
-				<div class="col-md-4 container-fluid" style="margin-left: 4%; margin-right: 1%;">
-					
-					<!-- Naslov Running Agents -->
-					<div style="text-align: center;">
-						<h2>Running Agents</h2>
-					</div>
-					
-					<!-- Spisak Running Agents -->
-					<div class="col-md-3 scrollable-menu"
-						style="overflow-y: scroll; min-width: 100%; margin-bottom: 2%; max-height: 30vh;">
-						<ul class="list-group" id="online">
-							<li class="list-group-item" style="margin: 0%">Map Reduce</li>
-							<li class="list-group-item" style="margin: 0%">...</li>
-							<li class="list-group-item" style="margin: 0%">...</li>
-							<li class="list-group-item" style="margin: 0%">...</li>
-						</ul>
-					</div>
-
+				<!-- Naslov Console -->
+				<div style="text-align: center;">
+					<h2>Console</h2>
 				</div>
 
-				<!-- Kolona Console -->
-				<div class="col-md-7 container-fluid">
-					
-					<!-- Naslov Console -->
-					<div style="text-align: center;">
-						<h2>Console</h2>
-					</div>
-					
-					<!-- TextArea Console -->
-					<div class="col-md-3" style="min-width: 100%; margin-bottom: 2%; max-height: 30vh;">
-						<div class="form-group">
-  							<textarea class="form-control" rows="5" id="comment">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras id mattis felis. Quisque ante libero, viverra eu justo ac, facilisis condimentum ex. Morbi imperdiet id dolor quis lobortis. Morbi luctus suscipit dolor, id porttitor odio tempus ornare. Nunc hendrerit porta risus, id maximus justo accumsan vel. Phasellus a metus vel lorem ultrices iaculis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque efficitur enim ut erat hendrerit tincidunt. Mauris ut nisl eget sem fermentum facilisis in dignissim dolor. Quisque tempor tortor nec turpis feugiat faucibus. Suspendisse tempor ante a sem tincidunt volutpat. Donec blandit porta libero, ultrices feugiat nisi pulvinar vel. Etiam ut ultricies nisl. Vestibulum interdum nisl nec mattis vehicula. Morbi lacinia interdum sollicitudin. Aliquam dapibus sit amet neque eu volutpat.</textarea>
-						</div>
-					</div>
+				<!-- TextArea Console -->
+				<div class="col-md-3"
+					style="min-width: 100%; margin-bottom: 2%; max-height: 30vh;">
+					<div class="console-box ng-scope" scroll-glue="" ng-repeat="message in messages"></div>
+
+       		 </div>
 				</div>
+			</div>
 
 			<!-- End: Donji row -->
-			</div>
-
-			<div class="row text-center">
-				<h3>Agentske Tehnologije - FTN 2017</h3>
-				<h4>Dejan Ribic, Nenad Milic</h4>
-			</div>
-
 		</div>
+
+		<div class="row text-center">
+			<h3>Agentske Tehnologije - FTN 2017</h3>
+			<h4>Dejan Ribic, Nenad Milic</h4>
+		</div>
+
+	</div>
 </body>
 </html>

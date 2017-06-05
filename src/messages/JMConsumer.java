@@ -7,20 +7,30 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
-//TODO change queue make a new one
+
+import com.google.gson.Gson;
+
+import agents.AID;
+import agents.Agent;
+import agents.AgentFactory;
+
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/FromUserToChat") })
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/ToAgents") })
 public class JMConsumer implements MessageListener {
-
+	public static Gson gson = new Gson();
 	@Override
 	public void onMessage(Message message) {
-		//TODO establish protocol
-		// TODO find agent
-		// TODO pass on the message
-		ObjectMessage tmsg = (ObjectMessage) message;
+		TextMessage tmsg = (TextMessage) message;
 		try {
-			Object messageText = tmsg.getObject();
+			ACLMessage aclm = (ACLMessage) gson.fromJson(tmsg.getText(), ACLMessage.class);
+			for(AID aid: aclm.getRecivers()){
+				Agent a = AgentFactory.getAgent(aid.getName());
+				if(a!=null){
+					a.onMessage(aclm);
+				}
+			}
+			
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}

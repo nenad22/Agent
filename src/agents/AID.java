@@ -2,7 +2,7 @@ package agents;
 
 import model.AgentCenter;
 
-public class AID {
+public class AID{
 	private String name;
 	private AgentCenter host;
 	private AgentType type;
@@ -30,5 +30,18 @@ public class AID {
 	public void setType(AgentType type) {
 		this.type = type;
 	}
-
+/*
+	@Override
+	public boolean equals(Object obj) {
+		AID a = (AID) obj;
+		if(a.getHost().equals(this.getHost())){
+			if(a.getName().equals(this.getName())){
+				if(a.getType().equals(this.getType())){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	*/
 }

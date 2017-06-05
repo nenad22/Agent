@@ -8,9 +8,9 @@ import agents.AID;
 public class ACLMessage {
 	private Performative performative;
 	private AID sender ;
-	private ArrayList<AID> receivers;
+	private ArrayList<AID> recivers;
 	private AID replyTo;
-	private String Content ;
+	private String content ;
 	private Object contentObj ;
 	private HashMap<String, Object> userArgs;
 	private String language;
@@ -38,12 +38,12 @@ public class ACLMessage {
 		this.sender = sender;
 	}
 
-	public ArrayList<AID> getReceivers() {
-		return receivers;
+	public ArrayList<AID> getRecivers() {
+		return recivers;
 	}
 
-	public void setReceivers(ArrayList<AID> receivers) {
-		this.receivers = receivers;
+	public void setRecivers(ArrayList<AID> recivers) {
+		this.recivers = recivers;
 	}
 
 	public AID getReplyTo() {
@@ -55,11 +55,11 @@ public class ACLMessage {
 	}
 
 	public String getContent() {
-		return Content;
+		return content;
 	}
 
 	public void setContent(String content) {
-		Content = content;
+		content = content;
 	}
 
 	public Object getContentObj() {

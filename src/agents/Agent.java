@@ -2,12 +2,14 @@ package agents;
 
 import java.io.Serializable;
 
-import javax.ejb.Stateful;
+import messages.ACLMessage;
 
 public abstract class Agent implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private AID id;
 
-	public abstract void onMessage();
+	public abstract void onMessage(ACLMessage message);
 
 	public AID getId() {
 		return id;

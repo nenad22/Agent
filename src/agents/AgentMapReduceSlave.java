@@ -3,19 +3,23 @@ package agents;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class AgentMapReduceSlave extends Agent {
+import messages.ACLMessage;
+
+public class AgentMapReduceSlave extends Agent{
 
 	private String absFilePath;
-
+	public AgentMapReduceSlave(){
+		super();
+	}
+	
 	public AgentMapReduceSlave(String absFilePath) {
 		this.absFilePath = absFilePath;		
 	}
 
-	@Override
-	public void onMessage() {
-	}
+	
 
 	public int countWords() {
 		
@@ -32,6 +36,12 @@ public class AgentMapReduceSlave extends Agent {
 			e.printStackTrace();
 		}
 		return -1;
+		
+	}
+
+	@Override
+	public void onMessage(ACLMessage message) {
+		// TODO Treba da od mastera dobije poruku pa onda da radi poso
 		
 	}
 
