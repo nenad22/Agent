@@ -1,7 +1,6 @@
 package agents;
 
 import java.io.File;
-import java.io.Serializable;
 
 import messages.ACLMessage;
 

@@ -13,13 +13,9 @@ import javax.ejb.Singleton;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import org.zeromq.ZMQ;
-
 import com.google.gson.Gson;
 
-import agents.Agent;
 import agents.AgentFactory;
-import agents.AgentMapReduceMaster;
 import model.AgentCenter;
 import rest.AgentEndpoints;
 
@@ -29,6 +25,7 @@ public class App extends Application {
 	public static AgentCenter me;
 	public static AgentCenter master;
 	public static boolean amIMaster;
+
 	@PostConstruct
 	public void init() {
 
@@ -55,6 +52,7 @@ public class App extends Application {
 		 * MRMaster.doWork(MRdir);
 		 */
 	}
+
 	/**
 	 * Reads properties from the file and registers this node to master.
 	 */
@@ -76,14 +74,14 @@ public class App extends Application {
 			master.setAlias(prop.getProperty("masterAlias"));
 			me.setAddress(prop.getProperty("meAddress"));
 			me.setAlias(prop.getProperty("meAlias"));
-			
-			if(master.getAddress().equals(me.getAddress())){
+
+			if (master.getAddress().equals(me.getAddress())) {
 				amIMaster = true;
-			}else{
+			} else {
 				amIMaster = false;
 				registerMyself();
 			}
-			
+
 			System.out.println(prop.getProperty("meAlias"));
 			System.out.println(prop.getProperty("meAddress"));
 			System.out.println(prop.getProperty("masterAlias"));
@@ -104,15 +102,14 @@ public class App extends Application {
 
 	private void registerMyself() {
 		// TODO zeroMQ to master
-		
-		
+
 	}
 
 	public static void main(String[] args) {
 		Set<String> x = AgentFactory.getAgentClasses();
 		for (String s : x) {
-		//	Agent a = AgentFactory.makeAgent(s,"asd");
-		//	System.out.println(a.getClass());
+			// Agent a = AgentFactory.makeAgent(s,"asd");
+			// System.out.println(a.getClass());
 		}
 		System.out.println("\n");
 		AgentEndpoints ae = new AgentEndpoints();
@@ -121,7 +118,7 @@ public class App extends Application {
 		System.out.println(json);
 		for (String s : x) {
 			System.out.println(s);
-			Method m  = AgentEndpoints.getMethod(s);
+			Method m = AgentEndpoints.getMethod(s);
 			try {
 				m.invoke(ae, null);
 			} catch (IllegalAccessException e) {
@@ -135,5 +132,4 @@ public class App extends Application {
 
 	}
 
-	
 }

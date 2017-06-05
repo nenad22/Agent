@@ -5,7 +5,6 @@ import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
 
 import com.google.gson.Gson;
@@ -14,11 +13,14 @@ import agents.AID;
 import agents.Agent;
 import agents.AgentFactory;
 
+
 @MessageDriven(activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
 		@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/ToAgents") })
 public class JMConsumer implements MessageListener {
+
 	public static Gson gson = new Gson();
+
 	@Override
 	public void onMessage(Message message) {
 		TextMessage tmsg = (TextMessage) message;

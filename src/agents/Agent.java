@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import messages.ACLMessage;
 
+
+
 public abstract class Agent implements Serializable {
 
 	private static final long serialVersionUID = 1L;
