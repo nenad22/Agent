@@ -105,6 +105,7 @@ public class App extends Application {
 
 	}
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Set<String> x = AgentFactory.getAgentClasses();
 		for (String s : x) {

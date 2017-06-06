@@ -59,7 +59,7 @@ public class ACLMessage {
 	}
 
 	public void setContent(String content) {
-		content = content;
+		this.content = content;
 	}
 
 	public Object getContentObj() {

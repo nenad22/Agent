@@ -37,6 +37,7 @@ import messages.Performative;
 public class AgentEndpoints {
 
 	public static HashMap<String, Method> methods = new HashMap<>();
+	@SuppressWarnings("unused")
 	private static Gson gson = new Gson();
 	@GET
 	@Path("/classes")
@@ -95,6 +96,7 @@ public class AgentEndpoints {
 		return Performative.values();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@GET
 	@Path("/methods")
 	public static Set<String> getMethods() {

@@ -1,5 +1,5 @@
 body{
-    background: #2980b9 url('bgSeamless.png') repeat 0 0;
+    background: #2980b9 url('../Assets/backgroundSeamlessBlue.png') repeat 0 0;
 	-webkit-animation: 10s linear 0s normal none infinite animate;
 	-moz-animation: 10s linear 0s normal none infinite animate;
 	-ms-animation: 10s linear 0s normal none infinite animate;
@@ -20,14 +20,17 @@ body{
 }
 
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, label {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-style: normal;
 	font-variant: normal;
 	font-weight: bold;
 	color: white; 
 	text-shadow: 3px 3px 3px black;
+}
 
+label {
+	text-shadow: 2px 2px 2px black;
 }
 
 h1 {

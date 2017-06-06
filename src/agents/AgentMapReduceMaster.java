@@ -4,6 +4,7 @@ import java.io.File;
 
 import messages.ACLMessage;
 
+@SuppressWarnings("serial")
 public class AgentMapReduceMaster extends Agent {
 
 	// private ArrayList<AgentMapReduceSlave> slaves;

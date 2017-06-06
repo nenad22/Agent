@@ -1,10 +1,10 @@
 package messages;
 
-import java.io.Serializable;
-
 public class AgentHelper{
+	
 	private String className;
 	private String agentName;
+	
 	public String getClassName() {
 		return className;
 	}

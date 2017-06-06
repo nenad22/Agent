@@ -30,12 +30,10 @@ public class AgentFactory {
 			}
 		}
 		return agentClasses.keySet();
-
 	}
 
 	/**
-	 * Contains created agents on this node <Agent name, Agent> TODO Agent name
-	 * or AID?
+	 * Contains created agents on this node <Agent name, Agent> or AID?
 	 */
 	public static HashMap<String, Agent> runningAgents = new HashMap<String, Agent>();
 

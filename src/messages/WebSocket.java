@@ -7,25 +7,15 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import javax.ejb.Stateless;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.JMSException;
-import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
-import javax.jms.Queue;
-import javax.jms.TextMessage;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.websocket.CloseReason;
 import javax.websocket.EncodeException;
 import javax.websocket.EndpointConfig;
+import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-
-import org.jboss.security.auth.spi.Users.User;
 
 import com.google.gson.Gson;
 
@@ -53,12 +43,21 @@ public class WebSocket {
 		}
 
 	}
+	
+	@OnClose
+	public void onClose(Session session, CloseReason closeReason) {
+		sessions.remove(session.getId());
+		System.out.println("Close reason:: " + closeReason.getReasonPhrase());
+	}
+	
 
 	@OnError
 	public void onError(Session session, Throwable throwable) {
+		sessions.remove(session.getId());
 		System.out.println("Error: " + session.getId().toString());
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@OnMessage
 	public void onMessage(String message, Session session) throws IOException, EncodeException {
 		System.out.println("Websocket recieved a message on: " + App.me.getAlias() + "\n" + message);
