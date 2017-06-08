@@ -141,4 +141,15 @@ public class ACLMessage {
 	public void setReplyBy(long replyBy) {
 		this.replyBy = replyBy;
 	}
+
+	@Override
+	public String toString() {
+		return "ACLMessage [performative=" + performative + ", sender=" + sender + ", recivers=" + recivers
+				+ ", replyTo=" + replyTo + ", content=" + content + ", contentObj=" + contentObj + ", userArgs="
+				+ userArgs + ", language=" + language + ", encoding=" + encoding + ", ontology=" + ontology
+				+ ", protocol=" + protocol + ", conversationId=" + conversationId + ", replyWith=" + replyWith
+				+ ", inReplyTo=" + inReplyTo + ", replyBy=" + replyBy + "]";
+	}
+	
+	
 }

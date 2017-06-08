@@ -25,7 +25,7 @@ public class AgentFactory {
 			Reflections reflections = new Reflections("agents");
 			Set<Class<? extends Agent>> classes = reflections.getSubTypesOf(Agent.class);
 			for (Class c : classes) {
-				System.out.println(c.getName());
+				//System.out.println(c.getName());
 				agentClasses.put(c.getName(), c);
 			}
 		}

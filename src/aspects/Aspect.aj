@@ -39,7 +39,7 @@ public aspect Aspect {
 		Agent a = (Agent) thisJoinPoint.getTarget();
 		ACLMessage aclm = (ACLMessage) thisJoinPoint.getArgs()[0];
 		
-		String logMsg = "[AGENT CENTER] "+ a.getId().getName() + " on " + a.getId().getHost().getAlias() + " reviced a message from "
+		String logMsg = "[AGENT CENTER] "+ a.getId().getName() + " on " + a.getId().getHost().getAlias() + " received a message from "
 				+ aclm.getSender().getName() + " on " + aclm.getSender().getHost().getAlias() + ": "
 				+ aclm.getPerformative() + ", " + aclm.getContent();
 		

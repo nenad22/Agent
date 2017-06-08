@@ -3,14 +3,9 @@ package agents;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
-import main.PropertiesUtil;
-import messages.ACLMessage;
-
-@SuppressWarnings("serial")
-public class AgentMapReduceSlave extends Agent {
+public class AgentMapReduceSlave {
 
 	private String absFilePath;
 
@@ -25,15 +20,6 @@ public class AgentMapReduceSlave extends Agent {
 	public int countWords() {
 
 		boolean diag = false;
-
-		try {
-			if (PropertiesUtil.instance().readProperty("diag").equals("true"))
-				diag = true;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		File file = new File(absFilePath);
 		try (Scanner sc = new Scanner(new FileInputStream(file))) {
@@ -54,11 +40,4 @@ public class AgentMapReduceSlave extends Agent {
 		return -1;
 
 	}
-
-	@Override
-	public void onMessage(ACLMessage message) {
-		// TODO Treba da od mastera dobije poruku pa onda da radi poso
-
-	}
-
 }

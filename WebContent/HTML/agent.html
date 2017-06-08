@@ -50,7 +50,7 @@
         
             <!-- Naslov Available Agents -->
             <div style="text-align: center;">
-                <h2>Available Agents</h2>
+                <h2>Available Agent Types</h2>
             </div>
             
             <!-- Spisak Available Agents -->
@@ -61,6 +61,7 @@
             </div>
             
         </div>
+        
         <!-- End: Kolona Available Agents -->
         
     </div>
@@ -79,9 +80,9 @@
             </div>
             
             <!-- Spisak Running Agents -->
-            <div class="col-md-3 scrollable-menu" style="overflow-y: scroll; min-width: 100%; margin-bottom: 2%; max-height: 30vh;">
+            <div class="col-md-3 scrollable-menu" style="min-width: 100%; margin-bottom: 2%; max-height: 30vh;">
                 <ul class="list-group" id="online">
-                    <li class="list-group-item" style="margin: 0%" ng-repeat="agent in runningAgents">{{agent.id.type.name.substring(7,end) +' '+agent.id.name}}</li>
+                    <li class="list-group-item" style="margin: 0%" ng-repeat="agent in runningAgents">{{agent.id.type.name.substring(7,end) +' - '+agent.id.name}}</li>
                 </ul>
             </div>
             
@@ -100,7 +101,7 @@
             <label style="margin-top: 5px;">Performative: </label> 
             
             <!-- Select -->
-            <select	class="form-control input-sm" rows="2" style="padding: 0%" ng-model="performative">
+            <select	id="performative" class="form-control input-sm" rows="2" style="padding: 0%" ng-model="performative">
                 <option ng-repeat="performative in performatives">{{performative}}</option>
             </select>
            
@@ -108,7 +109,7 @@
             <label style="margin-top: 5px;">Sender: </label>
             
             <!-- Select -->
-            <select	class="form-control input-sm" rows="2" style="padding: 0%" ng-model="sender">
+            <select	id="sender" class="form-control input-sm" rows="2" style="padding: 0%" ng-model="sender">
                 <option	ng-repeat="agent in runningAgents" value="{{agent.id}}">{{agent.id.type.name.substring(7,end) +' '+agent.id.name}}</option>
             </select>
             
@@ -116,7 +117,7 @@
             <label style="margin-top: 5px;">Reciver: </label>
             
             <!-- Select -->
-            <select class="form-control input-sm" rows="2" style="padding: 0%" ng-model="reciver">
+            <select id="receiver" class="form-control input-sm" rows="2" style="padding: 0%" ng-model="reciver">
                 <option ng-repeat="agent in runningAgents" value="{{agent.id}}">{{agent.id.type.name.substring(7,end) +' '+agent.id.name}}</option>
             </select>
             
@@ -124,7 +125,7 @@
             <label style="margin-top: 5px;">Reply to: </label> 
             
             <!-- Select -->
-            <select	class="form-control input-sm" rows="2" style="padding: 0%" ng-model="replyTo">
+            <select	id="replyTo" class="form-control input-sm" rows="2" style="padding: 0%" ng-model="replyTo">
                 <option ng-repeat="agent in runningAgents" value="{{agent.id}}">{{agent.id.type.name.substring(7,end) +' '+agent.id.name}}</option>
             </select>
             
@@ -132,7 +133,7 @@
             <label style="margin-top: 5px;">Content: </label> 
             
             <!-- Input -->
-            <input type="text" class="form-control input-sm" rows="2" ng-model="content"></input>
+            <input id="content" type="text" class="form-control input-sm" rows="2" ng-model="content"></input>
             
              <!-- Spacer -->
             <div style="height: 10px;">&nbsp;</div>
@@ -161,9 +162,9 @@
             </div>
             
             <!-- TextArea Console -->
-            <div class="col-md-3" style="min-width: 100%; margin-bottom: 2%; margin-top: 5px; max-height: 30vh; float: center">
-                 <ul class="list-group">
-                    <li class="list-group-item" style="margin: 0%" ng-repeat="message in messages">{{message.slice(start+1, end)}}</li>
+            <div class="col-md-3" style="min-width: 100%; margin-bottom: 2%; margin-top: 5px; max-height: 30vh; float: left">
+                 <ul class="list-group" style="text-align: left;">
+                    <li class="list-group-item" style="margin: 0%; float:left; min-width: 100%;" ng-repeat="message in messages">{{message.slice(start+1, end-1)}}</li>
                 </ul>
             </div>
             

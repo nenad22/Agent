@@ -1,8 +1,8 @@
 angular.module('agentApp').controller('AgentController', AgentController);
 
-AgentController.$inject = [ '$http', '$scope', '$location', '$websocket', '$rootScope' ];
+AgentController.$inject = [ '$http', '$scope', '$location', '$websocket', '$rootScope', '$document' ];
 
-function AgentController($http, $scope, $location, $websocket, $rootScope) {
+function AgentController($http, $scope, $location, $websocket, $rootScope, $document) {
 
 	$scope.sender;
 	$scope.reciver;
@@ -24,6 +24,13 @@ function AgentController($http, $scope, $location, $websocket, $rootScope) {
 	})
 
 	$scope.sendMessage = function() {
+		
+		var elem = $document;
+		console.log(x);
+		
+		var x = document.getElementById("performative");
+		console.log(elem);
+		
 		var sender = JSON.parse($scope.sender);
 		var reciver = JSON.parse($scope.reciver);
 		var replyTo = JSON.parse($scope.replyTo);
@@ -34,6 +41,7 @@ function AgentController($http, $scope, $location, $websocket, $rootScope) {
 			replyTo : replyTo,
 			content : $scope.content,
 		}
+		
 		$rootScope.ws.send("aclm" + JSON.stringify(aclm));
 	}
 	

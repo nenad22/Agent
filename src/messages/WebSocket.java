@@ -60,7 +60,7 @@ public class WebSocket {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@OnMessage
 	public void onMessage(String message, Session session) throws IOException, EncodeException {
-		System.out.println("Websocket recieved a message on: " + App.me.getAlias() + "\n" + message);
+		System.out.println("Websocket receieved a message on: " + App.me.getAlias() + "\n" + message);
 		int hasJson = message.indexOf('{');
 		String methodName = "";
 		String json = "";
