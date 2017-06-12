@@ -19,15 +19,15 @@ import javax.websocket.server.ServerEndpoint;
 
 import com.google.gson.Gson;
 
-import main.App;
+import rest.AgentCenterEndpoints;
 import rest.AgentEndpoints;
 
 @ServerEndpoint(value = "/websocket")
 @Stateless
 public class WebSocket {
 
-	public static AgentEndpoints ae = new AgentEndpoints();
-	public static Gson gson = new Gson();
+	private static AgentEndpoints ae = new AgentEndpoints();
+	private static Gson gson = new Gson();
 	/**
 	 * Session id, session
 	 */
@@ -60,7 +60,7 @@ public class WebSocket {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@OnMessage
 	public void onMessage(String message, Session session) throws IOException, EncodeException {
-		System.out.println("Websocket receieved a message on: " + App.me.getAlias() + "\n" + message);
+		System.out.println("Websocket receieved a message on: " + AgentCenterEndpoints.me.getAlias() + "\n" + message);
 		int hasJson = message.indexOf('{');
 		String methodName = "";
 		String json = "";

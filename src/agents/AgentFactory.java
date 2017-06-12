@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
-import main.App;
+import rest.AgentCenterEndpoints;
 
 /**
  * Class for managing agents.
@@ -53,7 +53,8 @@ public class AgentFactory {
 		try {
 			Agent a = (Agent) c.newInstance();
 			AID aid = new AID();
-			aid.setHost(App.me);
+			//aid.setHost(App.me);
+			aid.setHost(AgentCenterEndpoints.me);
 			aid.setName(agentName);
 			AgentType at = new AgentType();
 			at.setModule(className);

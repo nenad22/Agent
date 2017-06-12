@@ -21,4 +21,9 @@ public abstract class Agent implements Serializable {
 		this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		return "Agent [id=" + id + "]";
+	}
+
 }

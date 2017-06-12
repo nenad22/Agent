@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -22,8 +23,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import com.google.gson.Gson;
-
 import agents.AID;
 import agents.Agent;
 import agents.AgentFactory;
@@ -34,11 +33,13 @@ import messages.Performative;
 @Produces({ "application/xml", "application/json" })
 @Consumes({ "application/xml", "application/json" })
 @Stateless
+@LocalBean
 public class AgentEndpoints {
 
-	public static HashMap<String, Method> methods = new HashMap<>();
-	@SuppressWarnings("unused")
-	private static Gson gson = new Gson();
+	private static HashMap<String, Method> methods = new HashMap<>();
+	
+	//private static Gson gson = new Gson();
+	
 	@GET
 	@Path("/classes")
 	public Set<String> getClasses() {
