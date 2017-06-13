@@ -23,36 +23,52 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+
 import agents.AID;
 import agents.Agent;
 import agents.AgentFactory;
 import messages.AgentHelper;
 import messages.Performative;
+import model.AgentCenter;
 
 @Path("/agents")
-@Produces({ "application/xml", "application/json" })
-@Consumes({ "application/xml", "application/json" })
+@Produces({ "application/json" })
+@Consumes({ "application/json" })
 @Stateless
 @LocalBean
 public class AgentEndpoints {
 
 	private static HashMap<String, Method> methods = new HashMap<>();
-	
-	//private static Gson gson = new Gson();
-	
+
+	// private static Gson gson = new Gson();
+
 	@GET
+	@Produces({ "application/json" })
 	@Path("/classes")
 	public Set<String> getClasses() {
 		return AgentFactory.agentClasses.keySet();
 	}
 
 	@GET
+	@Produces({ "application/json" })
 	@Path("/running")
 	public Collection<Agent> getRunning() {
 		return AgentFactory.runningAgents.values();
 	}
 
 	@POST
+	@Consumes({ "application/json" })
+	@Path("/newRemote")
+	public void newRemote(Agent agent) {
+		AgentFactory.runningAgents.put(agent.getId().getName(), agent);
+	}
+
+	@POST
+	@Produces({ "application/json" })
+	@Consumes({ "application/json" })
 	@Path("/start")
 	public Agent startAgent(AgentHelper ah) {
 		Agent a = AgentFactory.makeAgent(ah.getClassName(), ah.getAgentName());
@@ -61,12 +77,15 @@ public class AgentEndpoints {
 	}
 
 	@DELETE
+	@Consumes({ "application/json" })
 	@Path("/stop")
 	public void stopAgent(AID aid) {
 		AgentFactory.runningAgents.remove(aid.getName());
 	}
 
 	@POST
+	@Produces({ "application/json" })
+	@Consumes({ "application/json" })
 	@Path("/message")
 	public void sendMessageToAgent(String message) {
 		Context context;
@@ -92,6 +111,7 @@ public class AgentEndpoints {
 	}
 
 	@GET
+	@Produces({ "application/json" })
 	@Path("/performatives")
 	public Performative[] getPerformatives() {
 		return Performative.values();

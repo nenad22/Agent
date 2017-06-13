@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import javax.ejb.Stateless;
+import javax.websocket.Session;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,22 +21,27 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
+import com.google.gson.Gson;
+
 import agents.Agent;
 import agents.AgentFactory;
 import exceptions.AliasExistsException;
 import main.PropertiesUtil;
+import messages.WebSocket;
 import model.AgentCenter;
 
+@Produces({ "application/json" })
+@Consumes({ "application/json" })
 @Path("/agent_centers")
-@Produces({ "application/xml", "application/json" })
-@Consumes({ "application/xml", "application/json" })
 @Stateless
 public class AgentCenterEndpoints {
 
 	public static AgentCenter me;
 	public static AgentCenter master;
 	public static HashMap<String, AgentCenter> agentCenters = new HashMap<String, AgentCenter>();
-
+	
+	
+	
 	public static boolean amMaster;
 	
 	public static void setup() {
@@ -69,14 +75,28 @@ public class AgentCenterEndpoints {
 		amMaster = (master.getAddress().equals(me.getAddress())) ? true : false; 
 		registerMyself();
 		
-		if (!amMaster)
-			getRunningAgents();
+		if (!amMaster){
+			//getRunningAgents();
+			ResteasyClient client = new ResteasyClientBuilder().build();
+			ResteasyWebTarget rtarget = client.target("http://" + master.getAddress() + "/agent/agent/agents");
+			AgentAPI rest = (AgentAPI) rtarget.proxy(AgentAPI.class);
+			Collection<Agent> runningAgentsFromMaster = rest.getRunning();
+			
+			System.out.println(runningAgentsFromMaster.size());
+			
+			for (Agent agent : runningAgentsFromMaster) {
+				System.out.println(me.getAlias() + " :: " + "Dobio sam agenta: " + agent + ", od mastera.");
+				AgentFactory.runningAgents.put(agent.getId().getName(), agent);
+				
+			} 
+		}
 	}
 
 	@GET
 	@Path("/get_running")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Deprecated
 	public static ArrayList<String> getRunningAgents() {
 		System.out.println(me.getAlias() + " :: " + "Getting running agents!");
 
@@ -200,7 +220,20 @@ public class AgentCenterEndpoints {
 
 		// SKLONI AGENTSKI CENTAR IZ SPISKA
 		agentCenters.remove(destroyedAlias);
-		
+		Gson gson = new Gson();
+		for(Agent a: AgentFactory.runningAgents.values()){
+			if(a.getId().getHost().getAlias().equals(destroyedAlias)){
+				AgentFactory.runningAgents.remove(a.getId().getName());
+				for (Session s : WebSocket.sessions.values()) {
+					try {
+						s.getBasicRemote().sendText(
+								"stopAgent" + gson.toJson(a, Class.forName(a.getId().getType().getModule())));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 		// AKO SI I MASTER, JAVI OSTALIM DA SKLONE
 		if (amMaster) {
 			// ZA SVE AGENTSKE CENTRE NA SPISKU
