@@ -90,46 +90,6 @@ public class AgentCenterEndpoints {
 		}
 	}
 
-	@GET
-	@Path("/get_running")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Deprecated
-	public static ArrayList<String> getRunningAgents() {
-		System.out.println(me.getAlias() + " :: " + "Getting running agents!");
-
-		// AKO NISAM MASTER - A SAMO TAD MI TREBA SPISAK
-		if (!amMaster) {
-			ResteasyClient client = new ResteasyClientBuilder().build();
-
-			String targetAdress = "http://" + master.getAddress() + "/agent/agent/agent_centers";
-
-			System.out.println(me.getAlias() + " :: " + "Pucam get running Agents na: " + targetAdress);
-
-			ResteasyWebTarget rtarget = client.target(targetAdress);
-			AgentCenterAPI rest = rtarget.proxy(AgentCenterAPI.class);
-			ArrayList<String> runningAgentsFromMaster = rest.get_running();
-
-			System.out.println(runningAgentsFromMaster.size());
-
-			for (String agent : runningAgentsFromMaster) {
-				System.out.println(me.getAlias() + " :: " + "Dobio sam agenta: " + agent + ", od mastera.");
-
-				// TODO: Sta uraditi s agentima koje dobijem od mastera?
-				// AgentFactory.makeAgent(agent, agentName);
-			}
-		}
-
-		ArrayList<String> tempList = new ArrayList<String>();
-
-		for (String key : AgentFactory.runningAgents.keySet()) {
-			Agent agent = AgentFactory.runningAgents.get(key);
-			tempList.add("[ AGENT CLASS: " + agent.getClass().getName() + ", AGENT ID: " + agent.getId() + "]");
-		}
-
-		return tempList;
-	}
-
 	private static void registerMyself() {
 
 		System.out.println(me.getAlias() + " :: " + "Registering myself!");
@@ -220,6 +180,7 @@ public class AgentCenterEndpoints {
 
 		// SKLONI AGENTSKI CENTAR IZ SPISKA
 		agentCenters.remove(destroyedAlias);
+		
 		// Skloni njegove agente
 		Gson gson = new Gson();
 		ArrayList<String> toRemove = new ArrayList<String>();
@@ -265,6 +226,16 @@ public class AgentCenterEndpoints {
 		// OBJAVI KOJI SU TI OSTALI
 		System.out.println("Ja sam " + me.getAlias() + " i svi registrovani kod mene su:");
 		System.out.println(Arrays.asList(agentCenters));
+	}
+	
+	@GET
+	@Path("/heartbeat")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Boolean heartbeat() {
+		System.out.println(
+				me.getAlias() + " :: " + "Stigo mi je request /heartbeat! Ah, ha, ha, ha, stayin' alive, stayin' alive!");
+		return true;
 	}
 
 	public static void killMe() {

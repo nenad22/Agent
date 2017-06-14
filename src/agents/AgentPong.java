@@ -21,7 +21,7 @@ public class AgentPong extends Agent {
 		System.out.println(message);
 		
 		ResteasyClient client = new ResteasyClientBuilder().build();
-		ResteasyWebTarget rtarget = client.target("http://localhost:8080/agent/agent/agents");
+		ResteasyWebTarget rtarget = client.target("http://" + message.getReplyTo() + "/agent/agent/agents");
 		AgentAPI rest = rtarget.proxy(AgentAPI.class);
 
 		ACLMessage messageBack = new ACLMessage();

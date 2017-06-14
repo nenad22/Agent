@@ -36,4 +36,10 @@ public interface AgentCenterAPI {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<String> get_running();
+
+	@GET
+	@Path("/heartbeat")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Boolean heartbeat();
 }

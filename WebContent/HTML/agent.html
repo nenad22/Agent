@@ -82,7 +82,7 @@
             <!-- Spisak Running Agents -->
             <div class="col-md-3 scrollable-menu" style="min-width: 100%; margin-bottom: 2%; max-height: 30vh;">
                 <ul class="list-group" id="online">
-                    <li class="list-group-item" style="margin: 0%" ng-repeat="agent in runningAgents">{{agent.id.type.name.substring(7,end) +' - '+agent.id.name}}</li>
+                    <li class="list-group-item" style="margin: 0%" ng-repeat="agent in runningAgents">{{'['+ agent.id.host.alias + '] ' + agent.id.type.name.substring(7,end) +' - '+agent.id.name}}</li>
                 </ul>
             </div>
             
@@ -105,38 +105,38 @@
                 <option ng-repeat="performative in performatives">{{performative}}</option>
             </select>
            
-            <!-- Labela Performative -->
+            <!-- Labela Sender -->
             <label style="margin-top: 5px;">Sender: </label>
             
             <!-- Select -->
             <select	id="sender" class="form-control input-sm" rows="2" style="padding: 0%" ng-model="sender">
-                <option	ng-repeat="agent in runningAgents" value="{{agent.id}}">{{agent.id.type.name.substring(7,end) +' '+agent.id.name}}</option>
+                <option	ng-repeat="agent in runningAgents" value="{{agent.id}}">{{'['+ agent.id.host.alias + '] ' + agent.id.type.name.substring(7,end) +' '+agent.id.name}}</option>
             </select>
             
-            <!-- Labela Performative -->
+            <!-- Labela Receiver -->
             <label style="margin-top: 5px;">Reciver: </label>
             
             <!-- Select -->
             <select id="receiver" class="form-control input-sm" rows="2" style="padding: 0%" ng-model="reciver">
-                <option ng-repeat="agent in runningAgents" value="{{agent.id}}">{{agent.id.type.name.substring(7,end) +' '+agent.id.name}}</option>
+                <option ng-repeat="agent in runningAgents" value="{{agent.id}}">{{'['+ agent.id.host.alias + '] ' + agent.id.type.name.substring(7,end) +' '+agent.id.name}}</option>
             </select>
             
-            <!-- Labela Performative -->
+            <!-- Labela Reply to -->
             <label style="margin-top: 5px;">Reply to: </label> 
             
             <!-- Select -->
             <select	id="replyTo" class="form-control input-sm" rows="2" style="padding: 0%" ng-model="replyTo">
-                <option ng-repeat="agent in runningAgents" value="{{agent.id}}">{{agent.id.type.name.substring(7,end) +' '+agent.id.name}}</option>
+                <option ng-repeat="agent in runningAgents" value="{{agent.id}}">{{'['+ agent.id.host.alias + '] ' + agent.id.type.name.substring(7,end) +' '+agent.id.name}}</option>
             </select>
             
-            <!-- Labela Performative -->
+            <!-- Labela Content -->
             <label style="margin-top: 5px;">Content: </label> 
             
             <!-- Input -->
             <input id="content" type="text" class="form-control input-sm" rows="2" ng-model="content"></input>
             
              <!-- Spacer -->
-            <div style="height: 10px;">&nbsp;</div>
+            <div style="height: 15px;">&nbsp;</div>
             
             <!-- Input -->
             <input type="submit" style="width:100%; box-shadow: 2px 2px 2px black;" value="Send" class="btn btn-success input-sm" ng-click="sendMessage()" />
