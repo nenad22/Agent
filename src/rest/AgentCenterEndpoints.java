@@ -39,11 +39,9 @@ public class AgentCenterEndpoints {
 	public static AgentCenter me;
 	public static AgentCenter master;
 	public static HashMap<String, AgentCenter> agentCenters = new HashMap<String, AgentCenter>();
-	
-	
-	
+
 	public static boolean amMaster;
-	
+
 	public static void setup() {
 		PropertiesUtil util = PropertiesUtil.instance();
 
@@ -72,23 +70,23 @@ public class AgentCenterEndpoints {
 			System.out.println(me.getAlias() + " :: " + ">>>>\t" + me.getAddress());
 		}
 
-		amMaster = (master.getAddress().equals(me.getAddress())) ? true : false; 
+		amMaster = (master.getAddress().equals(me.getAddress())) ? true : false;
 		registerMyself();
-		
-		if (!amMaster){
-			//getRunningAgents();
+
+		if (!amMaster) {
+			// getRunningAgents();
 			ResteasyClient client = new ResteasyClientBuilder().build();
 			ResteasyWebTarget rtarget = client.target("http://" + master.getAddress() + "/agent/agent/agents");
 			AgentAPI rest = (AgentAPI) rtarget.proxy(AgentAPI.class);
 			Collection<Agent> runningAgentsFromMaster = rest.getRunning();
-			
+
 			System.out.println(runningAgentsFromMaster.size());
-			
+
 			for (Agent agent : runningAgentsFromMaster) {
 				System.out.println(me.getAlias() + " :: " + "Dobio sam agenta: " + agent + ", od mastera.");
 				AgentFactory.runningAgents.put(agent.getId().getName(), agent);
-				
-			} 
+
+			}
 		}
 	}
 
@@ -105,35 +103,35 @@ public class AgentCenterEndpoints {
 			ResteasyClient client = new ResteasyClientBuilder().build();
 
 			String targetAdress = "http://" + master.getAddress() + "/agent/agent/agent_centers";
-				
+
 			System.out.println(me.getAlias() + " :: " + "Pucam get running Agents na: " + targetAdress);
-			
+
 			ResteasyWebTarget rtarget = client.target(targetAdress);
 			AgentCenterAPI rest = rtarget.proxy(AgentCenterAPI.class);
 			ArrayList<String> runningAgentsFromMaster = rest.get_running();
-			
+
 			System.out.println(runningAgentsFromMaster.size());
-			
+
 			for (String agent : runningAgentsFromMaster) {
 				System.out.println(me.getAlias() + " :: " + "Dobio sam agenta: " + agent + ", od mastera.");
-				
+
 				// TODO: Sta uraditi s agentima koje dobijem od mastera?
 				// AgentFactory.makeAgent(agent, agentName);
-			} 
+			}
 		}
-		
+
 		ArrayList<String> tempList = new ArrayList<String>();
-		
+
 		for (String key : AgentFactory.runningAgents.keySet()) {
 			Agent agent = AgentFactory.runningAgents.get(key);
-		    tempList.add("[ AGENT CLASS: " + agent.getClass().getName() + ", AGENT ID: " + agent.getId() + "]");
+			tempList.add("[ AGENT CLASS: " + agent.getClass().getName() + ", AGENT ID: " + agent.getId() + "]");
 		}
-		 
+
 		return tempList;
 	}
 
 	private static void registerMyself() {
-		
+
 		System.out.println(me.getAlias() + " :: " + "Registering myself!");
 
 		// AKO JESAM MASTER SAMO ME UBACI KOD MENE U SPISAK
@@ -147,20 +145,20 @@ public class AgentCenterEndpoints {
 			ResteasyClient client = new ResteasyClientBuilder().build();
 
 			String targetAdress = "http://" + master.getAddress() + "/agent/agent/agent_centers";
-				
+
 			System.out.println(me.getAlias() + " :: " + "Pucam register na: " + targetAdress);
-			
+
 			ResteasyWebTarget rtarget = client.target(targetAdress);
 			AgentCenterAPI rest = rtarget.proxy(AgentCenterAPI.class);
 			Collection<AgentCenter> agentCentersFromMaster = rest.node(me);
-			
+
 			agentCenters = new HashMap<>();
-			
+
 			for (AgentCenter acfm : agentCentersFromMaster) {
 				agentCenters.put(acfm.getAlias(), acfm);
 			}
 		}
-		
+
 		System.out.println(me.getAlias() + " :: " + "Svi registrovani kod mene su:\n" + Arrays.asList(agentCenters));
 	}
 
@@ -169,101 +167,112 @@ public class AgentCenterEndpoints {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<AgentCenter> node(AgentCenter agentCenter) throws AliasExistsException {
-		
-		System.out.println(me.getAlias() + " :: " + "Stigo mi je request /node!\nAgent za registraciju je: " + agentCenter);
+
+		System.out.println(
+				me.getAlias() + " :: " + "Stigo mi je request /node!\nAgent za registraciju je: " + agentCenter);
 
 		// AKO SAM MASTER - JAVIM SVIM OSTALIMA DA REGISTRUJU
-	    if (amMaster) {
-	    	
-			System.out.println(me.getAlias() + " :: " + "Ja sam master dakle saljem sledecim agentskim centrima ovaj novi!");
-	    	
-	    	// ZA SVE AGENTSKE CENTRE NA SPISKU
-	    	for (AgentCenter ac : agentCenters.values()) {
-	    		
-	    		// SAMOM SEBI NEMOJ DA JAVLJAS
-	    		if (ac.getAlias().equals(master.getAlias())) continue;
-	    		
+		if (amMaster) {
+
+			System.out.println(
+					me.getAlias() + " :: " + "Ja sam master dakle saljem sledecim agentskim centrima ovaj novi!");
+
+			// ZA SVE AGENTSKE CENTRE NA SPISKU
+			for (AgentCenter ac : agentCenters.values()) {
+
+				// SAMOM SEBI NEMOJ DA JAVLJAS
+				if (ac.getAlias().equals(master.getAlias()))
+					continue;
+
 				String targetAdress = "http://" + ac.getAddress() + "/agent/agent/agent_centers";
-				
+
 				System.out.println(me.getAlias() + " :: " + "REST /node POZIV IDE NA: " + targetAdress);
-				
+
 				ResteasyClient client = new ResteasyClientBuilder().build();
 				ResteasyWebTarget rtarget = client.target(targetAdress);
 				AgentCenterAPI rest = rtarget.proxy(AgentCenterAPI.class);
 				rest.node(agentCenter);
-	    	}
-	    }
-	    
+			}
+		}
+
 		// A ONDA TI REGISTRUJ
 		String aliasCenter = agentCenter.getAlias();
 
-		if (agentCenters.containsKey(aliasCenter)){
+		if (agentCenters.containsKey(aliasCenter)) {
 			System.out.println(me.getAlias() + " :: " + "! > ! > ! > Vec postoji alias!");
 			throw new AliasExistsException(aliasCenter);
 		}
-		
+
 		agentCenters.put(agentCenter.getAlias(), agentCenter);
-		
+
 		System.out.println(me.getAlias() + " :: " + "Svi registrovani kod mene su:\n" + Arrays.asList(agentCenters));
-    
+
 		return agentCenters.values();
 	}
-	
+
 	@DELETE
 	@Path("/destroy_node")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public void destroy_node(String destroyedAlias) {
-		
-		
+
 		System.out.println("Stigo mi je request /destroy_node!\nAgent za brisanje je: " + destroyedAlias);
 
 		// SKLONI AGENTSKI CENTAR IZ SPISKA
 		agentCenters.remove(destroyedAlias);
+		// Skloni njegove agente
 		Gson gson = new Gson();
-		for(Agent a: AgentFactory.runningAgents.values()){
-			if(a.getId().getHost().getAlias().equals(destroyedAlias)){
-				AgentFactory.runningAgents.remove(a.getId().getName());
-				for (Session s : WebSocket.sessions.values()) {
+		ArrayList<String> toRemove = new ArrayList<String>();
+		for (Agent a : AgentFactory.runningAgents.values()) {
+			if (a.getId().getHost().getAlias().equals(destroyedAlias)) {
+				toRemove.add(a.getId().getName());
+				for (Session sess : WebSocket.sessions.values()) {
 					try {
-						s.getBasicRemote().sendText(
-								"stopAgent" + gson.toJson(a, Class.forName(a.getId().getType().getModule())));
+						System.out.println("stopAgent");
+						sess.getBasicRemote()
+								.sendText("stopAgent" + gson.toJson(a, Class.forName(a.getId().getType().getModule())));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			}
 		}
+		for (String s : toRemove) {
+			System.out.println(s);
+			AgentFactory.runningAgents.remove(s);
+		}
+
 		// AKO SI I MASTER, JAVI OSTALIM DA SKLONE
 		if (amMaster) {
 			// ZA SVE AGENTSKE CENTRE NA SPISKU
-	    	for (AgentCenter ac : agentCenters.values()) {
-	    		
-	    		// SAMOM SEBI NEMOJ DA JAVLJAS
-	    		if (ac.getAlias().equals(master.getAlias())) continue;
-	    		
+			for (AgentCenter ac : agentCenters.values()) {
+
+				// SAMOM SEBI NEMOJ DA JAVLJAS
+				if (ac.getAlias().equals(master.getAlias()))
+					continue;
+
 				String targetAdress = "http://" + ac.getAddress() + "/agent/agent/agent_centers";
-				
+
 				System.out.println("REST POZIV IDE NA: " + targetAdress);
-				
+
 				ResteasyClient client = new ResteasyClientBuilder().build();
 				ResteasyWebTarget rtarget = client.target(targetAdress);
 				AgentCenterAPI rest = rtarget.proxy(AgentCenterAPI.class);
 				rest.destroy_node(destroyedAlias);
-	    	}
+			}
 		}
-		
+
 		// OBJAVI KOJI SU TI OSTALI
 		System.out.println("Ja sam " + me.getAlias() + " i svi registrovani kod mene su:");
-	    System.out.println(Arrays.asList(agentCenters));
+		System.out.println(Arrays.asList(agentCenters));
 	}
 
 	public static void killMe() {
 		if (!amMaster) {
 			String targetAdress = "http://" + master.getAddress() + "/agent/agent/agent_centers";
-			
+
 			System.out.println("DELETE REST POZIV IDE NA: " + targetAdress);
-			
+
 			ResteasyClient client = new ResteasyClientBuilder().build();
 			ResteasyWebTarget rtarget = client.target(targetAdress);
 			AgentCenterAPI rest = rtarget.proxy(AgentCenterAPI.class);

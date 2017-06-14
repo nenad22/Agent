@@ -25,7 +25,7 @@ public class AgentFactory {
 			Reflections reflections = new Reflections("agents");
 			Set<Class<? extends Agent>> classes = reflections.getSubTypesOf(Agent.class);
 			for (Class c : classes) {
-				//System.out.println(c.getName());
+				// System.out.println(c.getName());
 				agentClasses.put(c.getName(), c);
 			}
 		}
@@ -35,6 +35,8 @@ public class AgentFactory {
 	/**
 	 * Contains created agents on this node <Agent name, Agent> or AID?
 	 */
+	// public static HashMap<String, Agent> runningAgents = new HashMap<String,
+	// Agent>();
 	public static HashMap<String, Agent> runningAgents = new HashMap<String, Agent>();
 
 	/**
@@ -47,13 +49,14 @@ public class AgentFactory {
 	public static Agent makeAgent(String className, String agentName) {
 		if (!agentClasses.containsKey(className))
 			return null;
+
 		if (runningAgents.containsKey(agentName))
 			return null;
 		Class c = agentClasses.get(className);
 		try {
 			Agent a = (Agent) c.newInstance();
 			AID aid = new AID();
-			//aid.setHost(App.me);
+			// aid.setHost(App.me);
 			aid.setHost(AgentCenterEndpoints.me);
 			aid.setName(agentName);
 			AgentType at = new AgentType();
@@ -68,6 +71,7 @@ public class AgentFactory {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
+
 		return null;
 
 	}

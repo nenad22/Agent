@@ -1,7 +1,5 @@
 package messages;
 
-import java.util.Collection;
-
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
@@ -18,7 +16,6 @@ import com.google.gson.Gson;
 import agents.AID;
 import agents.Agent;
 import agents.AgentFactory;
-import model.AgentCenter;
 import rest.AgentAPI;
 import rest.AgentCenterEndpoints;
 

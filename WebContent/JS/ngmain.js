@@ -33,7 +33,7 @@ angular.module('agentApp', [ 'ngRoute', 'ngCookies', 'ngWebSocket' ]).config(
 		
 				case "stopAgent":
 					for (var i = 0; i < $rootScope.runningAgents.length; ++i) {
-						if ($rootScope.runningAgents[i].aid.name == json.aid.name) {
+						if ($rootScope.runningAgents[i].id.name == json.id.name) {
 							$rootScope.runningAgents.splice(i, 1);
 							break;
 						}
@@ -63,6 +63,7 @@ angular.module('agentApp', [ 'ngRoute', 'ngCookies', 'ngWebSocket' ]).config(
 		$rootScope.runningAgents = [];
 		$rootScope.performatives = [];
 		$rootScope.messages = [];
+		
 });
 
 function getRootUri() {

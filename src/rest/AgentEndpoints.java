@@ -23,16 +23,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-
 import agents.AID;
 import agents.Agent;
 import agents.AgentFactory;
 import messages.AgentHelper;
 import messages.Performative;
-import model.AgentCenter;
 
 @Path("/agents")
 @Produces({ "application/json" })
@@ -62,8 +57,10 @@ public class AgentEndpoints {
 	@POST
 	@Consumes({ "application/json" })
 	@Path("/newRemote")
-	public void newRemote(Agent agent) {
+	public boolean newRemote(Agent agent) {
+		if (AgentFactory.runningAgents.containsKey(agent.getId().getName())) return false;
 		AgentFactory.runningAgents.put(agent.getId().getName(), agent);
+		return true;	
 	}
 
 	@POST

@@ -41,7 +41,11 @@ function AgentController($http, $scope, $location, $websocket, $rootScope, $docu
 			replyTo : replyTo,
 			content : $scope.content,
 		}
-		
+		$scope.sender="";
+		$scope.reciver="";
+		$scope.replyTo="";
+		$scope.content="";
+		$scope.performative="";
 		$rootScope.ws.send("aclm" + JSON.stringify(aclm));
 	}
 	

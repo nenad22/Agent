@@ -15,12 +15,10 @@ import messages.ACLMessage;
 import messages.WebSocket;
 import model.AgentCenter;
 import rest.AgentAPI;
-import rest.AgentCenterAPI;
 import rest.AgentCenterEndpoints;
 
 public aspect Aspect {
 
-	@SuppressWarnings("unused")
 	private static Gson gson = new Gson();
 
 	/*
@@ -63,7 +61,7 @@ public aspect Aspect {
 
 	}
 
-	pointcut newRemote() : execution (void rest.AgentEndpoints.newRemote(..));
+	pointcut newRemote() : execution (boolean rest.AgentEndpoints.newRemote(..));
 
 	before():newRemote(){
 		Agent agent = (Agent) thisJoinPoint.getArgs()[0];
@@ -97,7 +95,5 @@ public aspect Aspect {
 		return agent;
 
 	}
-	
-	
 
 }

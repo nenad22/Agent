@@ -164,7 +164,7 @@
             <!-- TextArea Console -->
             <div class="col-md-3" style="min-width: 100%; margin-bottom: 2%; margin-top: 5px; max-height: 30vh; float: left">
                  <ul class="list-group" style="text-align: left;">
-                    <li class="list-group-item" style="margin: 0%; float:left; min-width: 100%;" ng-repeat="message in messages">{{message.slice(start+1, end-1)}}</li>
+                    <li class="list-group-item" style="margin: 0%; float:left; min-width: 100%;" ng-repeat="message in messages track by $index">{{message.slice(start+1, end-1)}}</li>
                 </ul>
             </div>
             
