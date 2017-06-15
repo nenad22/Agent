@@ -180,7 +180,7 @@ public class AgentCenterEndpoints {
 
 		// SKLONI AGENTSKI CENTAR IZ SPISKA
 		agentCenters.remove(destroyedAlias);
-		
+
 		// Skloni njegove agente
 		Gson gson = new Gson();
 		ArrayList<String> toRemove = new ArrayList<String>();
@@ -227,14 +227,13 @@ public class AgentCenterEndpoints {
 		System.out.println("Ja sam " + me.getAlias() + " i svi registrovani kod mene su:");
 		System.out.println(Arrays.asList(agentCenters));
 	}
-	
+
 	@GET
 	@Path("/heartbeat")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Boolean heartbeat() {
-		System.out.println(
-				me.getAlias() + " :: " + "Stigo mi je request /heartbeat! Ah, ha, ha, ha, stayin' alive, stayin' alive!");
+		System.out.println(me.getAlias() + " :: " + "Stigo mi je request heartbeat!");
 		return true;
 	}
 
